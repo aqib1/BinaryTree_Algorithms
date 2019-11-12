@@ -206,7 +206,8 @@ public class BT<T> {
 		// inOrderOuterBoundery(node, true, false);
 	}
 
-	private void inOrderOuterBoundery(Node<T> node, boolean left, boolean right) {
+	@Deprecated
+	public void inOrderOuterBoundery(Node<T> node, boolean left, boolean right) {
 		if (Objects.isNull(node))
 			return;
 		if (left)
@@ -242,8 +243,9 @@ public class BT<T> {
 		}
 	}
 
+	@Deprecated
 	// O(n) + O(n * n)
-	private void levelOrderUsingHeight() {
+	public void levelOrderUsingHeight() {
 		int height = height(); // O(n)
 		for (int level = 0; level <= height; level++) {
 			printLevelOrder(root, level);
