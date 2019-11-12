@@ -3,6 +3,7 @@ package com.org.bt;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Stack;
 
 public class BT<T> {
 	private Node<T> root = null;
@@ -52,33 +53,178 @@ public class BT<T> {
 	}
 
 	public void print(BT_Traversal bt) {
+		print(bt, root);
+	}
+
+	private void print(BT_Traversal bt, Node<T> node) {
 		switch (bt) {
 		case IN_ORDER: {
-			inOrderTraversal(root);
+			inOrderTraversal(node);
 			break;
 		}
 		case PRE_ORDER: {
-			preOrderTraversal(root);
+			preOrderTraversal(node);
 			break;
 		}
 		case POST_ORDER: {
-			postOrderTraversal(root);
+			postOrderTraversal(node);
 			break;
 		}
 		case LEVEL_ORDER: {
 			// levelOrderUsingHeight();
-			levelOrderUsingQueue();
+			levelOrderUsingQueue(node);
+			break;
+		}
+		case SPIRAL_ORDER: {
+			spiralOrderTraversal(node);
 			break;
 		}
 		default:
-			inOrderTraversal(root);
+			inOrderTraversal(node);
+		}
+	}
+
+	// Spiral solution using two stacks
+	private void spiralOrderTraversal(BT<T>.Node<T> node) {
+		Stack<Node<T>> leftToRight = new Stack<>();
+		Stack<Node<T>> rightToLeft = new Stack<>();
+		leftToRight.push(node);
+		while (!leftToRight.isEmpty()) {
+			Node<T> f = leftToRight.pop();
+			if (!Objects.isNull(f)) {
+				System.out.println(f);
+				rightToLeft.push(f.right);
+				rightToLeft.push(f.left);
+				while (!rightToLeft.isEmpty()) {
+					Node<T> s = rightToLeft.pop();
+					if (!Objects.isNull(s)) {
+						System.out.println(s);
+						leftToRight.push(s.left);
+						leftToRight.push(s.right);
+					}
+				}
+
+			}
 		}
 	}
 
 	// O(n) where n is no of nodes
-	private void levelOrderUsingQueue() {
-		levelOrderPrintUsingQueue(root);
+	private void levelOrderUsingQueue(Node<T> node) {
+		levelOrderPrintUsingQueue(node);
 
+	}
+
+	// leftNode
+	public void leftNodeBT(BT_Traversal bt_Traversal) {
+		print(bt_Traversal, root.left);
+	}
+
+	// rightNode
+	public void rightNodeBT(BT_Traversal bt_Traversal) {
+		print(bt_Traversal, root.right);
+	}
+
+	public int depth(int key) {
+		return depth(root, key, -1);
+	}
+
+	private int depth(Node<T> node, int key, int i) {
+		if (!Objects.isNull(node) && node.key == key)
+			return i + 1;
+		else if (Objects.isNull(node))
+			return -1;
+
+		if (key > node.key)
+			return depth(node.right, key, i + 1);
+		else
+			return depth(node.left, key, i + 1);
+	}
+
+	// Outer Boundary Print
+	public void outerBoundaryPrint(BT_Traversal bt_Traversal) {
+		switch (bt_Traversal) {
+		case IN_ORDER: {
+			inOrderOuterBoundery(root);
+			break;
+		}
+		case PRE_ORDER: {
+			preOrderOuterBoundery(root);
+			break;
+		}
+		case POST_ORDER: {
+			postOrderOuterBounder(root);
+			break;
+		}
+		default:
+			inOrderOuterBoundery(root);
+			break;
+		}
+	}
+
+	// LEFT - RIGHT - R
+	private void postOrderOuterBounder(BT<T>.Node<T> node) {
+		if (Objects.isNull(node))
+			return;
+		printAllLeft(node.left);
+		printAllRight(node.right);
+		System.out.println(node);
+
+	}
+
+	// R - LEFT - RIGHT
+	private void preOrderOuterBoundery(BT<T>.Node<T> node) {
+		if (Objects.isNull(node))
+			return;
+		System.out.println(node);
+		printAllLeft(node.left);
+		printAllRight(node.right);
+
+	}
+
+	private void printAllLeft(BT<T>.Node<T> left) {
+		if (Objects.isNull(left))
+			return;
+		printAllLeft(left.left);
+		System.out.println(left);
+	}
+
+	private void printAllRight(BT<T>.Node<T> right) {
+		if (Objects.isNull(right))
+			return;
+		printAllRight(right.right);
+		System.out.println(right);
+	}
+
+	// LEFT - R - RIGHT
+	private void inOrderOuterBoundery(Node<T> node) {
+		if (Objects.isNull(node))
+			return;
+		printAllLeft(node.left);
+		System.out.println(node);
+		printAllRight(node.right);
+
+		// inOrderOuterBoundery(node, true, false);
+	}
+
+	private void inOrderOuterBoundery(Node<T> node, boolean left, boolean right) {
+		if (Objects.isNull(node))
+			return;
+		if (left)
+			inOrderOuterBoundery(node.left, left, right);
+
+		System.out.println(node);
+
+		if (isRoot(node)) {
+			left = false;
+			right = true;
+		}
+		if (right)
+			inOrderOuterBoundery(node.right, left, right);
+	}
+
+	private boolean isRoot(BT<T>.Node<T> node) {
+		// TODO Auto-generated method stub
+		return node.key == root.key;
 	}
 
 	private void levelOrderPrintUsingQueue(Node<T> node) {

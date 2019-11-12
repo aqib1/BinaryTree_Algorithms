@@ -12,7 +12,9 @@ public class MainClass {
 		bt.add("t4", 3);
 		bt.add("t5", 8);
 //		System.out.println(bt.find(4));
-		bt.print(BT_Traversal.LEVEL_ORDER);
-		System.out.println(bt.height());
+		bt.print(BT_Traversal.SPIRAL_ORDER);
+//		System.out.println(bt.height());
+//		bt.outerBoundaryPrint(BT_Traversal.POST_ORDER);
+//		System.out.println(bt.depth(3));
 	}
 }
