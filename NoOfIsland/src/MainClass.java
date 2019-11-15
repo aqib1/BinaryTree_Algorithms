@@ -2,12 +2,14 @@
 public class MainClass {
 
 	public static void main(String[] args) {
-		int[][] land = {{1, 1, 0, 0, 0},
-                {0, 1, 0, 0, 1},
-                {1, 0, 0, 1, 1},
-                {0, 0, 0, 0, 0},
-                {1, 0, 1, 0, 1}};
-		System.out.println(findNumberOfIsland(land));
+		NoOfIsland noOfIsland = new NoOfIsland();
+		// int[][] land = {{1, 1, 0, 0, 0},
+		// {0, 1, 0, 0, 1},
+		// {1, 0, 0, 1, 1},
+		// {0, 0, 0, 0, 0},
+		// {1, 0, 1, 0, 1}};
+		int[][] land = { { 1, 0, 0 }, { 0, 0, 1 } };
+		System.out.println(noOfIsland.noOfIsland(land));
 	}
 
 	private static int findNumberOfIsland(int[][] land) {
